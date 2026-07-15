@@ -1,0 +1,36 @@
+artifactSources:
+  - name: artifact-test-source
+    runtime: node
+    buildCommand: npm install
+    branch: main
+
+services:
+  - type: web
+    name: service-alpha
+    plan: free
+    artifactSourceName: artifact-test-source
+    startCommand: npm start
+    healthCheckPath: /health
+    envVars:
+      - key: SERVICE_NAME
+        value: service-alpha
+      - key: NODE_ENV
+        value: production
+        previewValue: development
+
+  - type: web
+    name: service-beta
+    plan: free
+    artifactSourceName: artifact-test-source
+    startCommand: npm start
+    healthCheckPath: /health
+    envVars:
+      - key: SERVICE_NAME
+        value: service-beta
+      - key: NODE_ENV
+        value: production
+        previewValue: development
+
+previews:
+  generation: automatic
+  expireAfterDays: 7
